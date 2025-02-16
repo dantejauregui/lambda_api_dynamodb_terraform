@@ -16,7 +16,7 @@ __pycache__/
 venv/
 .env
 .envrc
-
+package_to_zip/
 
 # Lambda Deployment Package
 lambda.zip
