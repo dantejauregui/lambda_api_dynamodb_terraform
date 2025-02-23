@@ -5,6 +5,7 @@
 terraform.tfvars
 *.tfvars.json
 crash.log
+.terraform.lock.hcl
 
 # Python
 __pycache__/

@@ -1,3 +1,4 @@
+# Python part
 In the python module we generate the zip file for AWS Lambda that includes the needed pip packages and the latest python code. Also later we will focus in use container images instead for zip files.
 
 For Zip file Lambda version:
@@ -20,3 +21,10 @@ cd package_to_zip
 zip -r ../../terraform/lambda.zip .
 cd ..
 ```
+
+
+
+# Terraform part
+
+## Testing deployed Lambda
+To test the API CALL, use this URL structure: https://<AWS-URL>?apikey=<APIKEY>&t=titanic
