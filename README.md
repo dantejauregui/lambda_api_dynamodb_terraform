@@ -27,4 +27,4 @@ cd ..
 # Terraform part
 
 ## Testing deployed Lambda
-To test the API CALL, use this URL structure: https://<AWS-URL>?apikey=<APIKEY>&t=titanic
+To test the API CALL, use this URL structure: https://`<AWS-URL>`?apikey=`<APIKEY>`&t=titanic
