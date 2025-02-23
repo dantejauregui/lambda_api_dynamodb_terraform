@@ -26,9 +26,7 @@ resource "aws_iam_policy_attachment" "lambda_logs" {
 resource "aws_lambda_function" "hello_lambda" {
   function_name    = "MyHelloWorldLambda"
   role             = aws_iam_role.lambda_execution_role.arn
-  runtime          = "python3.9"
-  handler          = "index.lambda_handler"
-  filename         = "lambda.zip"
-  source_code_hash = filebase64sha256("lambda.zip")
+  package_type     = "Image"
+  image_uri        = "686255985622.dkr.ecr.eu-central-1.amazonaws.com/python/omdb:V1.0"
   timeout          = 10
 }

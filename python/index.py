@@ -1,5 +1,6 @@
 import json
 import requests
+import sys
 
 def lambda_handler(event, context):
     # Extract query parameters

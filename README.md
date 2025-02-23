@@ -22,6 +22,22 @@ zip -r ../../terraform/lambda.zip .
 cd ..
 ```
 
+## Creating Python image with ECR
+First go to the "python" folder, and because I use M1 Mac (ARM64) I build the image using:
+```
+docker buildx build --platform linux/amd64 -t python/omdb:V1.0 .
+```
+Or in case you use Linux:
+```
+docker build -t python/omdb:v1.0 .
+```
+
+Later Tag the image and push it to AWS:
+```
+docker tag python/omdb:V1.0 686255985622.dkr.ecr.eu-central-1.amazonaws.com/python/omdb:V1.0
+
+docker push 686255985622.dkr.ecr.eu-central-1.amazonaws.com/python/omdb:V1.0
+```
 
 
 # Terraform part
