@@ -34,9 +34,9 @@ docker build -t python/omdb:v1.0 .
 
 Later Tag the image and push it to AWS:
 ```
-docker tag python/omdb:V1.0 686255985622.dkr.ecr.eu-central-1.amazonaws.com/python/omdb:V1.0
+docker tag python/omdb:V1.0 <AWS-ECR-URL>:V1.0
 
-docker push 686255985622.dkr.ecr.eu-central-1.amazonaws.com/python/omdb:V1.0
+docker push <AWS-ECR-URL>:V1.0
 ```
 
 

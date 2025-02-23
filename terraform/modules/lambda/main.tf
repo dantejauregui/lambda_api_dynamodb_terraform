@@ -27,6 +27,6 @@ resource "aws_lambda_function" "hello_lambda" {
   function_name    = "MyHelloWorldLambda"
   role             = aws_iam_role.lambda_execution_role.arn
   package_type     = "Image"
-  image_uri        = "686255985622.dkr.ecr.eu-central-1.amazonaws.com/python/omdb:V1.0"
+  image_uri        = "<AWS-ECR-URL>"
   timeout          = 10
 }
