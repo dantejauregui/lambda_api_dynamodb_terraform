@@ -1,3 +1,5 @@
+variable "lambda_image_uri" {}
+
 resource "aws_iam_role" "lambda_execution_role" {
   name = "lambda_execution_role"
 
@@ -27,6 +29,6 @@ resource "aws_lambda_function" "hello_lambda" {
   function_name    = "MyHelloWorldLambda"
   role             = aws_iam_role.lambda_execution_role.arn
   package_type     = "Image"
-  image_uri        = "<AWS-ECR-URL>"
+  image_uri        = var.lambda_image_uri 
   timeout          = 10
 }
