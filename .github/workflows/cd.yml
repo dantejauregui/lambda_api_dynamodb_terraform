@@ -41,7 +41,7 @@ jobs:
       name: Terraform Apply
       working-directory: ${{ env.TERRAFORM_WORKING_DIRECTORY }}
       run: |
-        terraform init -backend-config="bucket=${{ env.TF_S3_BUCKET_BACKEND_NAME }}" \
+        terraform init -backend-config="bucket=${{ vars.TF_S3_BUCKET_BACKEND_NAME }}" \
             -backend-config="region=${{ env.AWS_REGION }}"
 
         terraform apply -auto-approve -var="lambda_image_uri=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
