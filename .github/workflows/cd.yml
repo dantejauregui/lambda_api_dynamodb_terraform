@@ -1,32 +1,47 @@
-# This is a basic workflow that is Manually Triggered
-
 name: cd
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
-  workflow_dispatch:
-    # Inputs the workflow accepts.
-    inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
-        required: true
-        # The data type of the input
-        type: string
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/**'
+
+env:
+  TERRAFORM_WORKING_DIRECTORY: "terraform"
+  ECR_REPOSITORY: "my-lambda-image"
+  ENVIRONMENT_NAME: "dev"
+  AWS_REGION: 'eu-central-1'
+  TF_VERSION: '1.6.0'
+  IMAGE_TAG: latest
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
-    # The type of runner that the job will run on
+  terraform:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
+    - name: 'Checkout GitHub repository'
+      uses: actions/checkout@v4
+    
+    - name: 'Configure AWS credentials'
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: 'Set up Terraform'
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+        terraform_wrapper: false
+
+    # - id: apply
+    #   name: Terraform Apply
+    #   working-directory: ${{ env.TERRAFORM_WORKING_DIRECTORY }}
+    #   run: terraform init -backend-config="bucket=${{ env.TF_S3_BUCKET_BACKEND_NAME }}" \
+    #                 -backend-config="region=${{ env.AWS_REGION }}"
+
+    #     terraform apply -auto-approve
+
