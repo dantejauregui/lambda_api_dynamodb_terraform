@@ -7,6 +7,8 @@ on:
     paths:
       - '**.py'  # Trigger when any Python file changes
       - 'Dockerfile'  # Trigger when Dockerfile changes
+  
+  workflow_dispatch:
     
 env:
   PYTHON_WORKING_DIRECTORY: "python"
