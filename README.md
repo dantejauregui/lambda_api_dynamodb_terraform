@@ -65,7 +65,7 @@ Now that is created the S3 Bucket, now change your backend.tf with its correct b
 Start with Terraform Init selecting the S3 Backend bucket:
 ```
 terraform init -backend-config="bucket=<YOUR-BUCKET-NAME>" \
-               -backend-config="region=<AWS-REGION>"
+               -backend-config="region=eu-central-1"
 ```
 
 Once is connected with the S3 Backend, run the other terraform commands:

@@ -19,11 +19,24 @@ resource "aws_iam_role" "lambda_execution_role" {
 EOF
 }
 
+
+# This IAM Role block adds Logging permissions: 
 resource "aws_iam_policy_attachment" "lambda_logs" {
   name       = "lambda_logs"
   roles      = [aws_iam_role.lambda_execution_role.name]
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
+
+
+
+# Just Attaching this for DynamoDB full access policy to Lambda role:
+resource "aws_iam_policy_attachment" "lambda_dynamodb_access" {
+  name       = "lambda_dynamodb_access"
+  roles      = [aws_iam_role.lambda_execution_role.name]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+}
+
+
 
 resource "aws_lambda_function" "hello_lambda" {
   function_name    = "MyHelloWorldLambda"

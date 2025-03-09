@@ -32,4 +32,4 @@ def lambda_handler(event, context):
         "body": json.dumps(response.json())
     }
 
-#TESTING API CALL with URL: https://<URL>?apikey=<APIKEY>&t=300
+#TESTING API CALL with URL: https://<URL>?apikey=<APIKEY>&t=titanic
