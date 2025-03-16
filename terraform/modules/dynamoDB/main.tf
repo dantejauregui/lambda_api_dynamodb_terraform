@@ -12,11 +12,6 @@ resource "aws_dynamodb_table" "search_results" {
     type = "S"  # String (Sort Key)
   }
 
-  attribute {
-    name = "age"
-    type = "N"  # Number (Optional Attribute)
-  }
-
   hash_key  = "name"
   range_key = "favorite_movie"
 
