@@ -1,12 +1,12 @@
 name: ci
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - '**.py'  # Trigger when any Python file changes
-      - 'Dockerfile'  # Trigger when Dockerfile changes
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - '**.py'  
+  #     - 'Dockerfile'  
   
   workflow_dispatch:
     
