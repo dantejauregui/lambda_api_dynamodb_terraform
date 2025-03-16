@@ -3,20 +3,21 @@ resource "aws_dynamodb_table" "search_results" {
   billing_mode = "PAY_PER_REQUEST"
 
   attribute {
-    name = "search"
+    name = "name"
     type = "S"  # String (Partition Key)
   }
 
   attribute {
-    name = "result"
+    name = "favorite_movie"
     type = "S"  # String (Sort Key)
   }
 
-  hash_key  = "search"
-  range_key = "result"
-
-  tags = {
-    Name        = "SearchResultsTable"
-    Environment = "Production"
+  attribute {
+    name = "age"
+    type = "N"  # Number (Optional Attribute)
   }
+
+  hash_key  = "name"
+  range_key = "favorite_movie"
+
 }

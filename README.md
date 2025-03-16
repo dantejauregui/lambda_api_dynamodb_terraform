@@ -41,7 +41,7 @@ docker push <AWS-ECR-URL>:V1.0
 ```
 
 
-# Terraform part
+# Terraform Setup part
 ## Setting up S3 Backend to store and centralize the tfstate file
 First you have to create your S3 bucket Backend:
 ```
@@ -85,3 +85,24 @@ terraform init -backend-config="bucket=${{ env.TF_S3_BUCKET_BACKEND_NAME }}" \
 
 ## Testing deployed Lambda
 To test the API CALL, use this URL structure: https://`<AWS-URL>`?apikey=`<APIKEY>`&t=titanic
+
+
+
+# Terraform Modules Part
+## DynamoDB Module
+
+In this project, I am using both hash_key (Partition Key) and range_key (Sort Key), where it will be assigned to the following attributes in my DynamoDB Table:
+
+- hash_key = `name` attribute (column)
+- range_key = `favorite_movie` attribute (column)
+- and `age` as normal attribute
+
+This means each `name` can store multiple favorite movies:
+
+| Name  | Favorite Movie |
+|-------|--------------|
+| Alice | Titanic     |
+| Alice | Inception   |
+| Bob   | Avatar      |
+
+BUT, If Only Using hash_key (Partition Key) means:  each `name` cannot store multiple favorite movies!
