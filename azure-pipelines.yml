@@ -1,0 +1,11 @@
+trigger:
+  branches:
+    include:
+      - main  # or your target branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - script: echo "✅ Hello from Azure DevOps!"
+    displayName: 'Print Hello World'
