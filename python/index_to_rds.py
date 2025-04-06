@@ -1,0 +1,1 @@
+#This script will connect to api_gateway service but also will post data to AWS RDS database:
