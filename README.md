@@ -4,17 +4,17 @@ In the python module we generate the zip file for AWS Lambda that includes the n
 For Zip file Lambda version:
 first create `venv`:
 ```
+cd python
 python3 -m venv venv
 source venv/bin/activate
 ```
 
 Once activated the venv, install dependencies from requirements.txt inside your venv:
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
 
-Later, go to the folder "package_to_zip" and package all the dependencies and zip it:
+Later, locate yourself in the folder `/python` and package all the dependencies from there, and zip it (the zip file we move it inside the Terraform folder, in order to later can be taken to create the infrestructure):
 ```
-cd package_to_zip
 pip install --target package_to_zip -r requirements.txt
 cp index.py package_to_zip/
 cd package_to_zip
@@ -87,6 +87,9 @@ terraform init -backend-config="bucket=${{ env.TF_S3_BUCKET_BACKEND_NAME }}" \
 To test the API CALL, use this URL structure: https://`<AWS-URL>`?apikey=`<APIKEY>`&t=titanic
 
 
+=======
+
+
 
 # Terraform Modules Part
 ## DynamoDB Module
@@ -106,3 +109,4 @@ This means each `name` can store multiple favorite movies:
 | Bob   | Avatar      |
 
 BUT, If Only Using hash_key (Partition Key) means:  each `name` cannot store multiple favorite movies!
+
