@@ -4,8 +4,8 @@ trigger:
       - main  # or your target branch
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: local-mac-pool 
 
 steps:
-  - script: echo "✅ Hello from Azure DevOps!"
+  - script: echo "Hello from Azure DevOps!"
     displayName: 'Print Hello World'
