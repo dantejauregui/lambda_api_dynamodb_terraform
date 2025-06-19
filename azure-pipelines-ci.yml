@@ -1,0 +1,50 @@
+trigger: none  # equivalent to workflow_dispatch only; no automatic trigger on push
+
+variables:
+  # by using "group" below, we are calling the secret variables created inside the "Library" section > "Variable Groups":
+  - group: aws-credentials
+  - name: PYTHON_WORKING_DIRECTORY
+    value: "python"
+  - name: ECR_REPOSITORY
+    value: "my-lambda-image"
+  - name: AWS_REGION
+    value: "eu-central-1"
+  - name: IMAGE_TAG
+    value: "latest"
+
+stages:
+  - stage: BuildAndPush
+    displayName: Build and Push Docker Image to ECR
+    jobs:
+      - job: BuildAndPushJob
+        displayName: Build and Push
+        pool:
+          name: local-mac-pool
+        steps:
+
+          - checkout: self
+            clean: true
+
+          - task: AWSShellScript@1
+            inputs:
+              awsCredentials: 'azuredevops_aws'
+              regionName: $(AWS_REGION)
+              scriptType: 'inline'
+              inlineScript: |
+                aws ecr describe-repositories --repository-names $(ECR_REPOSITORY) || \
+                aws ecr create-repository --repository-name $(ECR_REPOSITORY)
+
+          - script: |
+              aws ecr get-login-password --region $(AWS_REGION) | \
+              docker login --username AWS --password-stdin $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
+            displayName: Login to Amazon ECR
+
+          - script: |
+              docker build -t $(ECR_REPOSITORY) .
+            workingDirectory: $(PYTHON_WORKING_DIRECTORY)
+            displayName: Build Docker Image
+
+          - script: |
+              docker tag $(ECR_REPOSITORY):latest $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(ECR_REPOSITORY):$(IMAGE_TAG)
+              docker push $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(ECR_REPOSITORY):$(IMAGE_TAG)
+            displayName: Push Docker Image to ECR

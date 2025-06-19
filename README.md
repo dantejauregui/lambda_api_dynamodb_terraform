@@ -74,8 +74,11 @@ terraform plan
 terraform apply
 ```
 
+# Pipeline Setup part
 
-## Running Terraform from Pipeline
+## GithubActions Pipeline
+### Running Terraform from GithubActions Pipeline
+It consist in `ci.yaml` and `cd.yaml`.
 As already configured in the CD.yaml, the terraform init Job is configured using CICD env variables:
 ```
 terraform init -backend-config="bucket=${{ env.TF_S3_BUCKET_BACKEND_NAME }}" \
@@ -83,7 +86,30 @@ terraform init -backend-config="bucket=${{ env.TF_S3_BUCKET_BACKEND_NAME }}" \
 ```
 
 
-## Testing deployed Lambda
+## AzureDevOps Pipeline
+### Setting up AzureDevOps Pipeline
+First, inside AzureDevOps, you have to install in your Organization Settings the Extension called `AWS Toolkit for Azure DevOps`.
+
+Second, in your Project Settings of AzureDevOps, you have to create a new `Service Connection`, in order AzureDevOps & AWS can communicate. For that, as a pre-requisite, you will need to create a new `User` in AWS Portal, `attaching the Policies` you will need, and from that new User you have to generate its `Access Key ID` & `Secret Access Key` in the `Security Credentials Tab`, because this will be asked when you want to create the new `Service Connection`. 
+For more details, I followed this guide: https://dev.to/aws-builders/provisioning-infrastructure-on-aws-using-azure-devops-3g75
+
+
+
+### Adding Secrets in AzureDevOps Pipeline
+In azure devops, to add Secrets you will use during the pipeline is running like AWS credentials, inside AzurePipelines, you use its option `Library` and create a new `Variable Group`. After storing your respective secrets, you "Save" and later click in `Pipeline Permissions`, there will be a "3 Dots" which contains the option `Open Access` that will make usable those secrets to all the pipelines (in case this is what you want). For more details please check the screenshot below:
+![creating_secrets_azure_devops](other-resources/readme-resources/creating_secrets_azure_devops.png)
+
+So at the end, you have to add 3 secret in the variables group: `AWS_ACCESS_KEY_ID` , `AWS_ACCOUNT_ID` , `AWS_SECRET_ACCESS_KEY`.
+
+
+
+### Running Terraform from AzureDevOps Pipeline
+
+
+
+
+
+# Testing deployed Lambda
 To test the API CALL, use this URL structure: https://`<AWS-URL>`?apikey=`<APIKEY>`&t=titanic
 
 

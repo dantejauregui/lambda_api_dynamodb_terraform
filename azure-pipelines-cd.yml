@@ -1,0 +1,1 @@
+trigger: none  # equivalent to workflow_dispatch only; no automatic trigger on push
