@@ -1,7 +1,9 @@
 trigger: none  # equivalent to workflow_dispatch only; no automatic trigger on push
 
+name: 'ci'
+
 variables:
-  # by using "group" below, we are calling the secret variables created inside the "Library" section > "Variable Groups":
+  # using "group" we are calling the secret variables created inside the "Library" section > "Variable Groups":
   - group: aws-credentials
   - name: PYTHON_WORKING_DIRECTORY
     value: "python"

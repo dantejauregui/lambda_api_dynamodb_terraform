@@ -1,10 +1,10 @@
-trigger: none  # Manual run only, similar to `workflow_dispatch`
+trigger: none  # Manual trigger only
 
-name: 'cd'
+name: 'terraform-destroy'
 
 variables:
-  # using "group" we are calling the secret variables created inside the "Library" section > "Variable Groups":
   - group: aws-credentials
+
   - name: ECR_REPOSITORY
     value: "my-lambda-image"
   - name: AWS_REGION
@@ -21,18 +21,18 @@ variables:
     value: "terraform-state-27066"
 
 stages:
-- stage: Dev_deploy
+- stage: Destroy_Dev
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-  jobs: 
-  - job: terraform_apply_dev
-    displayName: 'Apply Terraform to AWS'
+  jobs:
+  - job: terraform_destroy_dev
+    displayName: 'Destroy Terraform Infra in AWS'
     pool:
       name: local-mac-pool
-    steps:
 
+    steps:
     - checkout: self
       clean: true
-      
+
     # we change to this long task-name because there was a Conflict of naming between plugins: TerraformInstaller@1 and TerraformCLI@0:
     #- task: TerraformInstaller@1
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
@@ -53,11 +53,11 @@ stages:
           -backend-config="region=$(AWS_REGION)"
 
     - task: TerraformCLI@0
-      displayName: 'Terraform Apply'
+      displayName: 'Terraform Destroy'
       inputs:
-        command: 'apply'
+        command: 'destroy'
         workingDirectory: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_WORKING_DIRECTORY)'
         commandOptions: >
           -auto-approve
           -var="lambda_image_uri=$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(ECR_REPOSITORY):$(IMAGE_TAG)"
-        environmentServiceNameAWS: 'azuredevops_aws'  # Again, use your connection name
+        environmentServiceNameAWS: 'azuredevops_aws'
