@@ -14,7 +14,7 @@ variables:
   - name: TF_VERSION
     value: "1.6.0"
   - name: TERRAFORM_WORKING_DIRECTORY
-    value: "terraform"
+    value: "lambda_api_dynamoDB"
   - name: ENVIRONMENT_NAME
     value: "dev"
   - name: TF_S3_BUCKET_BACKEND_NAME
